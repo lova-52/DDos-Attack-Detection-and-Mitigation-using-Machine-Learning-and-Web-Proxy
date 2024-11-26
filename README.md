@@ -231,18 +231,40 @@ The infrastructure layer is made up of the physical switches or routers in the n
 
 <!-- --------------------------------------------------------------------------------------------------------------------------------------------------------- -->
 
-<h3> Dataset Features Description:</h3>
+Here is the description for the dataset based on the data format provided in your code:
 
-Dataset is generated using python scripts for malicious traffic and legitimate traffic
-- Dataset size = 22 columns x 2667523 rows
-- Data description:
-- Ip_source - source IP address
-- Ip_dst - destination IP address
-- Icmp_type 
-- Flow duration 
-- Idle time 
-- Packet_count 
-- Label - classify malicious or legitimate traffic(1=legitimate & 0=malicious)
+---
+
+<h3>Dataset Features Description:</h3>
+
+The dataset is generated using Python scripts that capture flow data, including both malicious and legitimate traffic patterns.
+
+- **Dataset size** = 22 columns x 2,667,523 rows
+- **Data description**:
+  + **Timestamp**: The time at which the flow entry was recorded.
+  + **Datapath ID**: The identifier for the switch or network device handling the traffic.
+  + **Flow ID**: A unique identifier for each flow entry.
+  + **Ip_src**: Source IP address of the flow.
+  + **Tp_src**: Source transport port of the flow.
+  + **Ip_dst**: Destination IP address of the flow.
+  + **Tp_dst**: Destination transport port of the flow.
+  + **Ip_proto**: IP protocol type (e.g., TCP, UDP, ICMP).
+  + **Icmp_code**: The ICMP code, if the IP protocol is ICMP.
+  + **Icmp_type**: The ICMP type, if the IP protocol is ICMP.
+  + **Flow Duration (sec)**: Duration in seconds that the flow was active.
+  + **Flow Duration (nsec)**: Duration in nanoseconds, providing finer time resolution for the flow.
+  + **Idle Timeout**: The idle timeout value, indicating how long the flow can remain inactive before being removed.
+  + **Hard Timeout**: The maximum timeout for the flow, beyond which the flow is removed.
+  + **Flags**: Various flags indicating flow states or other flow parameters.
+  + **Packet Count**: The total number of packets in the flow.
+  + **Byte Count**: The total number of bytes transferred in the flow.
+  + **Packet Count per Second**: The average packet rate over time.
+  + **Packet Count per Nanosecond**: The packet rate per nanosecond, offering high precision.
+  + **Byte Count per Second**: The average byte rate over time.
+  + **Byte Count per Nanosecond**: The byte rate per nanosecond, offering high precision.
+  + **Label**: Classifies the traffic as either malicious or legitimate (1 = legitimate, 0 = malicious).
+
+This dataset provides detailed flow information that can be used for traffic analysis, network security, and anomaly detection, helping to distinguish between benign and potentially harmful network activities.
 
 <!-- --------------------------------------------------------------------------------------------------------------------------------------------------------- -->
 
