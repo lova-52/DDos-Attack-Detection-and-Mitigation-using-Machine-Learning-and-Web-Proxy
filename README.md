@@ -1,0 +1,2 @@
+# DDos-Attack-Detection-and-Mitigation-using-Machine-Learning-and-Web-Proxy
+SDN networks are vulnerable to various security risks, particularly Distributed Denial of Service (DDoS) attacks. To counteract this, we have introduced a model that leverages Machine Learning (ML) to detect and automatically mitigate such attacks in SDN environments, enhancing security by enabling quick, automatic responses to threats.
