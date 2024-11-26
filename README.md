@@ -401,3 +401,13 @@ August. Time-based DDoS detection and mitigation for SDN controller. In
 - Linux: Operating system
 - Python: Programming Language
 - Wireshark: Network Monitoring tool
+
+## Acknowledgements
+
+This project is based on the project "DDoS Attack Detection and Mitigation by using Machine Learning" by chiragbiradar, licensed under the MIT License.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+
