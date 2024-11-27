@@ -87,8 +87,10 @@ cd controller
 # switch on the ryu-controller with the prefer generation script(collect_ddos_trafic.py to collect DDoS traffic ,start_traffic_collection.py to collect benign traffic)
 ryu-manager collect_ddos_trafic.py
 ryu-manager start_traffic_collection.py
-```
+# the result should be something like this:
+![image](https://github.com/user-attachments/assets/f376a62f-f8dd-4ed0-87aa-3d01a812c3b1)
 
+```
 
 <h4> Go to Mininet-vm</h3>
 
@@ -96,11 +98,15 @@ ryu-manager start_traffic_collection.py
 # change working directory to mininet folder
 cd mininet
 
-# change controller ip address that you copied from ryu controller ip
-nano topology.py
+# change controller ip address that you copied from ryu controller ip (Ryu-controller will be the remote controller for the topology)
+nano topology.py (this is if you want to test-run the topology first, you should also change the ip address of the controller in others script too)
+nano genetate generate_benign_trafic.py (this is the one to generate the benign traffic)
+nano genetate generate_ddos_trafic.py
 
-# run topology
+# run the scripts
 sudo python topology.py
+(same thing with the others)
+
 ```
 
 <h3> hping commands</h3> 
@@ -108,15 +114,63 @@ sudo python topology.py
 ```bash
 # icmp flood
 hping3 -1 -V -d 120 -w 64 -p 80 --rand-source --flood
+
+Explanation of each flags:
+-1: This tells hping3 to operate in ICMP mode. ICMP is the protocol used by the ping command (for sending echo requests), and it's often used for testing network connectivity. In an ICMP flood, a target system is flooded with echo request packets (ping requests), which can overwhelm the system or network if sent at high enough rates.
+
+-V: Enables verbose mode, which causes hping3 to output additional information about the packets being sent and the operation. You'll see things like packet sending details in your terminal.
+
+-d 120: This sets the data size of each packet to 120 bytes. This determines how much data will be sent in each ICMP packet. A larger data size can increase the load on the target system as it has to process the larger packets.
+
+-w 64: This specifies the TCP window size, which isn't really relevant to ICMP packets (since ICMP is a different protocol that doesn't use windows), but hping3 uses this flag for any packet it sends. This size can be set to control flow in TCP packets, but it’s not utilized in ICMP floods.
+
+-p 80: This specifies the destination port to which the packets are sent. Although ICMP doesn’t use ports (ports are used by TCP and UDP), hping3 still uses this flag to indicate where the packets are targeted. In this case, port 80, which is commonly used for HTTP traffic, is chosen.
+
+--rand-source: This option randomizes the source IP address of each packet. This makes the flood harder to block because the source address changes constantly. This is commonly used in distributed denial-of-service (DDoS) attacks to obscure the origin of the flood.
+
+--flood: This instructs hping3 to send packets continuously as quickly as possible, without waiting for responses from the target. This will generate a flood of ICMP packets aimed at the target.
 ```
 
 ```bash
 # syn flood
 hping3 -S -V -d 120 -w 64 -p 80 --rand-source --flood
+
+Explanation of each flag:
+-S: SYN flag. This flag sets the SYN flag in the TCP packet header. In a regular TCP handshake, a client sends a SYN packet to a server, which then responds with a SYN-ACK, and the client responds with an ACK to complete the handshake. In a SYN flood, the attacker sends a large number of SYN packets without completing the handshake. The server waits for the ACK that never comes, leading to resource exhaustion.
+
+-V: Verbose mode. Again, this flag enables detailed output, so you can see information about each SYN packet sent.
+
+-d 120: Data size. The payload size of the SYN packet is set to 120 bytes. This is the data portion of the packet. The larger the data size, the more resources the target needs to handle each packet.
+
+-w 64: TCP window size. Similar to the previous example, this is the TCP window size, set to 64 bytes. It's important for TCP communication, but not directly relevant to a SYN flood attack since the attack focuses on the handshake.
+
+-p 80: Target port. This specifies the destination port for the SYN packets. Port 80 is the default HTTP port, so the attack targets web servers running on this port.
+
+--rand-source: Random source IP address. This option randomizes the source IP address for each SYN packet, making it difficult for the target to filter out malicious traffic based on known IP addresses.
+
+--flood: Flood mode. This flag tells hping3 to send SYN packets continuously without waiting for any response from the target. This is how the flood is generated.
+
 ```
 ```bash
 # udp flood
 hping3 -2 -V -d 120 -w 64 -p 80 --rand-source --flood
+
+Explanation of each flag:
+-2: UDP mode. This flag sets hping3 to UDP mode, which tells it to send UDP packets. Unlike TCP, UDP is a connectionless protocol, meaning there is no handshake. It simply sends packets to a specified port.
+
+-V: Verbose mode. Again, this flag provides more detailed information about the packets that are being sent.
+
+-d 120: Data size. This sets the payload size of the UDP packet to 120 bytes. This is the data portion of the packet that the target machine will need to process.
+
+-w 64: TCP window size. While this flag is for TCP packets, it is still included in the command for UDP. It doesn't affect the UDP packet directly but may affect the internal handling of the packet by hping3.
+
+-p 80: Target port. This specifies the destination port for the UDP packets. It is set to port 80 (typically HTTP). The attacker sends UDP packets to this port, overwhelming the target with traffic.
+
+--rand-source: Random source IP address. This option randomizes the source IP address, making it harder for the target to filter out malicious traffic based on IP addresses.
+
+--flood: Flood mode. This causes hping3 to send UDP packets continuously, without waiting for responses from the target. The goal is to flood the target with traffic, consuming its resources and potentially leading to service disruption.
+
+
 ```
 <h1>You can try out the project using my vm too</h2>
 
