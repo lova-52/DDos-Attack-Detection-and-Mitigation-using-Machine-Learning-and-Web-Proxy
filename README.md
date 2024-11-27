@@ -58,23 +58,24 @@ New security concerns and assaults, particularly Distributed Denial of Service (
 <h2>Installation</h2>
 
 ```bash
-- install [Virtual box](https://www.virtualbox.org/wiki/Downloads) or VM-ware workstation
+- install VirtualBox or VM-ware workstation
 
-- install [Mininet-VM](https://github.com/mininet/mininet/releases/)
+- install a Mininet VM (ubuntu)
 
-- install [Ubuntu](https://ubuntu.com/download/desktop) in virtual box
+- install a Ryu-controller VM (ubuntu)
 
-- install [ryu-controller](https://ryu.readthedocs.io/en/latest/getting_started.html) in ubuntu vm
-
-- Use git clone to install the code files
+- Use git clone to install the code files for each VM
 ```
 
 ```bash
-git clone https://github.com/chiragbiradar/DDoS-Attack-Detection-and-Mitigation-using-Machine-Learning.git
+git clone https://github.com/lova-52/DDos-Attack-Detection-and-Mitigation-using-Machine-Learning-and-Web-Proxy.git
 ```
 
+<h3>Generate datasets</h3>
 
-<h3>Go to Ubuntu/ryu controller vm</h3> 
+Here are the steps to generate dataset consist of Benign/DDoS traffic.
+
+<h4>Go to Ubuntu/ryu controller vm</h3> 
 
 ```bash
 #check your IP address
@@ -83,12 +84,13 @@ ifcongif
 # change working directory to controller folder
 cd controller
 
-# switch on the ryu-controller
-ryu-manager controller.py
+# switch on the ryu-controller with the prefer generation script(collect_ddos_trafic.py to collect DDoS traffic ,start_traffic_collection.py to collect benign traffic)
+ryu-manager collect_ddos_trafic.py
+ryu-manager start_traffic_collection.py
 ```
 
 
-<h3> Go to Mininet-vm</h3>
+<h4> Go to Mininet-vm</h3>
 
 ```bash
 # change working directory to mininet folder
